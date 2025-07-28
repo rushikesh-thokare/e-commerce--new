@@ -112,7 +112,8 @@ const products: Product[] = [
     name: "Bluetooth Speaker",
     price: 79.99,
     originalPrice: 99.99,
-    image: "/placeholder.svg?height=300&width=300&text=Bluetooth+Speaker",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1529359744902-86b2ab9edaea-ukQkGql7t6uxWqWnciHO1Fv6DPW0sA.avif",
     category: "Audio",
     brand: "SoundMax",
     rating: 4.3,
