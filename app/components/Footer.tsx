@@ -36,7 +36,7 @@ export default function Footer() {
   const socialLinks = [
     { name: "Facebook", icon: Facebook, href: "#", color: "hover:text-blue-600" },
     { name: "Twitter", icon: Twitter, href: "#", color: "hover:text-blue-400" },
-    { name: "Instagram", icon: Instagram, href: "#", color: "hover:text-pink-600" },
+    { name: "Instagram", icon: Instagram, href: "https://instagram.com/rushi.codes", color: "hover:text-pink-600" },
     { name: "Youtube", icon: Youtube, href: "#", color: "hover:text-red-600" },
   ]
 
@@ -95,11 +95,11 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
                 <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                <span>+1 (555) 123-4567</span>
+                <span>902285****</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
                 <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                <span>support@elitestore.com</span>
+                <span>thokarerushikesh@gmail.com</span>
               </div>
             </div>
 
