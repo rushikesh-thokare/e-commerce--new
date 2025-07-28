@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Star, Heart, ShoppingCart, Eye, Filter, Grid, List, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,6 +12,7 @@ import { useAuth } from "../context/AuthContext"
 import { useProductDetail } from "../context/ProductDetailContext"
 import { toast } from "sonner"
 import Image from "next/image"
+import { useSearch } from "../context/SearchContext"
 
 interface Product {
   id: number
@@ -165,8 +166,13 @@ export default function FeaturedProducts() {
   const { wishlist, toggleWishlist } = useWishlist()
   const { user, toggleLogin } = useAuth()
   const { openProductDetail } = useProductDetail()
+  const { searchQuery, clearSearch } = useSearch()
 
   const categories = ["all", ...Array.from(new Set(products.map((p) => p.category)))]
+
+  useEffect(() => {
+    filterProducts(selectedCategory, sortBy, searchQuery)
+  }, [searchQuery])
 
   const handleAddToCart = (product: Product) => {
     if (!user) {
@@ -198,8 +204,21 @@ export default function FeaturedProducts() {
     openProductDetail(product)
   }
 
-  const filterProducts = (category: string, sort: string) => {
-    const filtered = category === "all" ? products : products.filter((p) => p.category === category)
+  const filterProducts = (category: string, sort: string, search = "") => {
+    let filtered = category === "all" ? products : products.filter((p) => p.category === category)
+
+    // Apply search filter
+    if (search.trim()) {
+      const searchLower = search.toLowerCase()
+      filtered = filtered.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchLower) ||
+          product.description.toLowerCase().includes(searchLower) ||
+          product.category.toLowerCase().includes(searchLower) ||
+          product.brand.toLowerCase().includes(searchLower) ||
+          product.features.some((feature) => feature.toLowerCase().includes(searchLower)),
+      )
+    }
 
     switch (sort) {
       case "price-low":
@@ -223,12 +242,12 @@ export default function FeaturedProducts() {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
-    filterProducts(category, sortBy)
+    filterProducts(category, sortBy, searchQuery)
   }
 
   const handleSortChange = (sort: string) => {
     setSortBy(sort)
-    filterProducts(selectedCategory, sort)
+    filterProducts(selectedCategory, sort, searchQuery)
   }
 
   return (
@@ -441,7 +460,8 @@ export default function FeaturedProducts() {
               onClick={() => {
                 setSelectedCategory("all")
                 setSortBy("featured")
-                filterProducts("all", "featured")
+                clearSearch()
+                filterProducts("all", "featured", "")
               }}
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
             >
