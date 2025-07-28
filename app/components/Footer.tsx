@@ -36,7 +36,12 @@ export default function Footer() {
   const socialLinks = [
     { name: "Facebook", icon: Facebook, href: "#", color: "hover:text-blue-600" },
     { name: "Twitter", icon: Twitter, href: "#", color: "hover:text-blue-400" },
-    { name: "Instagram", icon: Instagram, href: "https://instagram.com/rushi.codes", color: "hover:text-pink-600" },
+    {
+      name: "Instagram",
+      icon: Instagram,
+      href: "https://www.instagram.com/rushi.codes/?next=%2F&hl=en",
+      color: "hover:text-pink-600",
+    },
     {
       name: "LinkedIn",
       icon: Linkedin,
@@ -119,7 +124,7 @@ export default function Footer() {
                   className={`hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 ${social.color}`}
                   asChild
                 >
-                  <a href={social.href} aria-label={social.name}>
+                  <a href={social.href} aria-label={social.name} target="_blank" rel="noopener noreferrer">
                     <social.icon className="h-5 w-5" />
                   </a>
                 </Button>
