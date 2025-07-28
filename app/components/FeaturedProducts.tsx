@@ -80,7 +80,8 @@ const products: Product[] = [
     name: "Gaming Mechanical Keyboard",
     price: 149.99,
     originalPrice: 199.99,
-    image: "/placeholder.svg?height=300&width=300&text=Gaming+Mechanical+Keyboard",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/istockphoto-1394788004-612x612-1-6sMeOv8AimGKQJyIhApuxpXdLuTmt4.webp",
     category: "Electronics",
     brand: "GamePro",
     rating: 4.7,
