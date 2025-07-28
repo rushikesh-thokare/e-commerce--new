@@ -1,6 +1,6 @@
 "use client"
 
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, ArrowRight } from "lucide-react"
+import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, ArrowRight, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
@@ -37,6 +37,12 @@ export default function Footer() {
     { name: "Facebook", icon: Facebook, href: "#", color: "hover:text-blue-600" },
     { name: "Twitter", icon: Twitter, href: "#", color: "hover:text-blue-400" },
     { name: "Instagram", icon: Instagram, href: "https://instagram.com/rushi.codes", color: "hover:text-pink-600" },
+    {
+      name: "LinkedIn",
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/rushi-thokare-487148376/",
+      color: "hover:text-blue-700",
+    },
     { name: "Youtube", icon: Youtube, href: "#", color: "hover:text-red-600" },
   ]
 
@@ -91,7 +97,7 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
                 <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                <span>123 Business Street, City, State 12345</span>
+                <span>Pune, Maharashtra, India</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
                 <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
