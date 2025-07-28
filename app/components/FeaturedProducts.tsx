@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Star, Heart, ShoppingCart, Eye, Filter, Grid, List, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,6 +12,7 @@ import { useAuth } from "../context/AuthContext"
 import { useProductDetail } from "../context/ProductDetailContext"
 import { toast } from "sonner"
 import Image from "next/image"
+import { useSearch } from "../context/SearchContext"
 
 interface Product {
   id: number
@@ -34,7 +35,7 @@ const products: Product[] = [
     name: "Premium Wireless Headphones",
     price: 299.99,
     originalPrice: 399.99,
-    image: "/placeholder.svg?height=300&width=300&text=Premium+Wireless+Headphones",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-gA4x1sYafoRFVNPlsg0nLGiQEThAzZ.png",
     category: "Audio",
     brand: "TechPro",
     rating: 4.8,
@@ -49,7 +50,8 @@ const products: Product[] = [
     name: "Smart Fitness Watch",
     price: 199.99,
     originalPrice: 249.99,
-    image: "/placeholder.svg?height=300&width=300&text=Smart+Fitness+Watch",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1629339837617-7069ce9e7f6b-8X4xRETMjgxmBDpt9XCMIVPw9foLsI.avif",
     category: "Electronics",
     brand: "FitTech",
     rating: 4.6,
@@ -63,7 +65,8 @@ const products: Product[] = [
     id: 3,
     name: "Luxury Smartphone Pro",
     price: 1199.99,
-    image: "/placeholder.svg?height=300&width=300&text=Luxury+Smartphone+Pro",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1727093493864-0bcbd16c7e6d-Nn1PPFBf24Ee2ZEi1VJeGPBMTaJPVy.avif",
     category: "Electronics",
     brand: "PhoneTech",
     rating: 4.9,
@@ -78,7 +81,8 @@ const products: Product[] = [
     name: "Gaming Mechanical Keyboard",
     price: 149.99,
     originalPrice: 199.99,
-    image: "/placeholder.svg?height=300&width=300&text=Gaming+Mechanical+Keyboard",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/istockphoto-1394788004-612x612-1-6sMeOv8AimGKQJyIhApuxpXdLuTmt4.webp",
     category: "Electronics",
     brand: "GamePro",
     rating: 4.7,
@@ -93,7 +97,8 @@ const products: Product[] = [
     name: "Professional Camera",
     price: 899.99,
     originalPrice: 1099.99,
-    image: "/placeholder.svg?height=300&width=300&text=Professional+Camera",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1474376700777-eb547d9bed2f-s59vSneFQFi2SphYfc8XL2MwoHsTyx.avif",
     category: "Electronics",
     brand: "PhotoPro",
     rating: 4.5,
@@ -108,7 +113,8 @@ const products: Product[] = [
     name: "Bluetooth Speaker",
     price: 79.99,
     originalPrice: 99.99,
-    image: "/placeholder.svg?height=300&width=300&text=Bluetooth+Speaker",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1529359744902-86b2ab9edaea-ukQkGql7t6uxWqWnciHO1Fv6DPW0sA.avif",
     category: "Audio",
     brand: "SoundMax",
     rating: 4.3,
@@ -122,7 +128,8 @@ const products: Product[] = [
     id: 7,
     name: "Laptop Pro 15-inch",
     price: 1499.99,
-    image: "/placeholder.svg?height=300&width=300&text=Laptop+Pro+15-inch",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/istockphoto-1321301354-612x612-Zph5PWLkbeoUorfnBGy0ScqKbQP5US.webp",
     category: "Computers",
     brand: "CompuTech",
     rating: 4.8,
@@ -137,7 +144,8 @@ const products: Product[] = [
     name: "Wireless Gaming Mouse",
     price: 49.99,
     originalPrice: 69.99,
-    image: "/placeholder.svg?height=300&width=300&text=Wireless+Gaming+Mouse",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1662323861979-0538474387e3-mY4VDfqi4itG8CUb0FvT3oMPgvUsRa.avif",
     category: "Electronics",
     brand: "TechPro",
     rating: 4.4,
@@ -158,8 +166,13 @@ export default function FeaturedProducts() {
   const { wishlist, toggleWishlist } = useWishlist()
   const { user, toggleLogin } = useAuth()
   const { openProductDetail } = useProductDetail()
+  const { searchQuery, clearSearch } = useSearch()
 
   const categories = ["all", ...Array.from(new Set(products.map((p) => p.category)))]
+
+  useEffect(() => {
+    filterProducts(selectedCategory, sortBy, searchQuery)
+  }, [searchQuery])
 
   const handleAddToCart = (product: Product) => {
     if (!user) {
@@ -191,8 +204,21 @@ export default function FeaturedProducts() {
     openProductDetail(product)
   }
 
-  const filterProducts = (category: string, sort: string) => {
-    const filtered = category === "all" ? products : products.filter((p) => p.category === category)
+  const filterProducts = (category: string, sort: string, search = "") => {
+    let filtered = category === "all" ? products : products.filter((p) => p.category === category)
+
+    // Apply search filter
+    if (search.trim()) {
+      const searchLower = search.toLowerCase()
+      filtered = filtered.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchLower) ||
+          product.description.toLowerCase().includes(searchLower) ||
+          product.category.toLowerCase().includes(searchLower) ||
+          product.brand.toLowerCase().includes(searchLower) ||
+          product.features.some((feature) => feature.toLowerCase().includes(searchLower)),
+      )
+    }
 
     switch (sort) {
       case "price-low":
@@ -216,12 +242,12 @@ export default function FeaturedProducts() {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
-    filterProducts(category, sortBy)
+    filterProducts(category, sortBy, searchQuery)
   }
 
   const handleSortChange = (sort: string) => {
     setSortBy(sort)
-    filterProducts(selectedCategory, sort)
+    filterProducts(selectedCategory, sort, searchQuery)
   }
 
   return (
@@ -434,7 +460,8 @@ export default function FeaturedProducts() {
               onClick={() => {
                 setSelectedCategory("all")
                 setSortBy("featured")
-                filterProducts("all", "featured")
+                clearSearch()
+                filterProducts("all", "featured", "")
               }}
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
             >

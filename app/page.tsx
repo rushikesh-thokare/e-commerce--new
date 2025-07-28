@@ -14,6 +14,7 @@ import { WishlistProvider } from "./context/WishlistContext"
 import { AuthProvider } from "./context/AuthContext"
 import { ProductDetailProvider } from "./context/ProductDetailContext"
 import { Toaster } from "sonner"
+import { SearchProvider } from "./context/SearchContext"
 
 interface Product {
   id: number
@@ -302,33 +303,35 @@ export default function HomePage() {
         <CartProvider>
           <WishlistProvider>
             <ProductDetailProvider>
-              <ThemeWrapper>
-                <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-                  <Toaster
-                    position="top-right"
-                    toastOptions={{
-                      duration: 3000,
-                      style: {
-                        background: "var(--background)",
-                        color: "var(--foreground)",
-                        border: "1px solid var(--border)",
-                      },
-                    }}
-                  />
-                  <Header />
-                  <main>
-                    <HeroSection />
-                    <FeaturedProducts />
-                  </main>
-                  <Footer />
+              <SearchProvider>
+                <ThemeWrapper>
+                  <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+                    <Toaster
+                      position="top-right"
+                      toastOptions={{
+                        duration: 3000,
+                        style: {
+                          background: "var(--background)",
+                          color: "var(--foreground)",
+                          border: "1px solid var(--border)",
+                        },
+                      }}
+                    />
+                    <Header />
+                    <main>
+                      <HeroSection />
+                      <FeaturedProducts />
+                    </main>
+                    <Footer />
 
-                  {/* Modals */}
-                  <CartModal />
-                  <WishlistModal />
-                  <LoginModal />
-                  <ProductDetailModal />
-                </div>
-              </ThemeWrapper>
+                    {/* Modals */}
+                    <CartModal />
+                    <WishlistModal />
+                    <LoginModal />
+                    <ProductDetailModal />
+                  </div>
+                </ThemeWrapper>
+              </SearchProvider>
             </ProductDetailProvider>
           </WishlistProvider>
         </CartProvider>

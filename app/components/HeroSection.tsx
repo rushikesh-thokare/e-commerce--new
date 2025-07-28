@@ -76,14 +76,19 @@ export default function HeroSection() {
           <div className="relative animate-in slide-in-from-right-8 duration-1000">
             <div className="relative">
               {/* Main Image */}
-              <div className="relative z-10 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 transform hover:scale-105 transition-transform duration-500">
-                <Image
-                  src="/placeholder.svg?height=400&width=500&text=Premium+Shopping+Experience"
-                  alt="Shopping Experience"
-                  width={500}
-                  height={400}
-                  className="rounded-2xl w-full h-auto"
-                />
+              <div className="relative z-10 bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 rounded-3xl shadow-2xl p-8 transform hover:scale-105 transition-all duration-500 border-2 border-gradient-to-r from-blue-200 to-purple-200 dark:border-gray-600 hover:shadow-blue-500/20 dark:hover:shadow-blue-400/20">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 p-4 shadow-inner">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl"></div>
+                  <Image
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/download-a0OJDDm4nm4DlereyAUpmFsRFZwI9I.webp"
+                    alt="RT Logo - Premium Technology Brand"
+                    width={500}
+                    height={400}
+                    className="rounded-xl w-full h-auto relative z-10 drop-shadow-2xl"
+                  />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+                </div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
               </div>
 
               {/* Floating Elements */}

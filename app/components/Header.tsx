@@ -11,20 +11,28 @@ import { useTheme } from "../context/ThemeContext"
 import { useCart } from "../context/CartContext"
 import { useWishlist } from "../context/WishlistContext"
 import { useAuth } from "../context/AuthContext"
+import { useSearch } from "../context/SearchContext"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
   const { theme, toggleTheme } = useTheme()
   const { cart, toggleCart } = useCart()
   const { wishlist, toggleWishlistModal } = useWishlist()
   const { user, toggleLogin, logout } = useAuth()
+  const { searchQuery, setSearchQuery } = useSearch()
 
   const cartItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0)
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Searching for:", searchQuery)
+    // Search is now handled by the context and will automatically filter products
+    if (searchQuery.trim()) {
+      // Scroll to products section
+      const productsSection = document.getElementById("shop")
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: "smooth" })
+      }
+    }
   }
 
   const navLinks = [
