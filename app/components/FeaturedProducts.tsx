@@ -127,7 +127,8 @@ const products: Product[] = [
     id: 7,
     name: "Laptop Pro 15-inch",
     price: 1499.99,
-    image: "/placeholder.svg?height=300&width=300&text=Laptop+Pro+15-inch",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/istockphoto-1321301354-612x612-Zph5PWLkbeoUorfnBGy0ScqKbQP5US.webp",
     category: "Computers",
     brand: "CompuTech",
     rating: 4.8,
