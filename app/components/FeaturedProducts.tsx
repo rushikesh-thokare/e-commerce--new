@@ -34,7 +34,7 @@ const products: Product[] = [
     name: "Premium Wireless Headphones",
     price: 299.99,
     originalPrice: 399.99,
-    image: "/placeholder.svg?height=300&width=300&text=Premium+Wireless+Headphones",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-gA4x1sYafoRFVNPlsg0nLGiQEThAzZ.png",
     category: "Audio",
     brand: "TechPro",
     rating: 4.8,
