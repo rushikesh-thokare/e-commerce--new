@@ -143,7 +143,8 @@ const products: Product[] = [
     name: "Wireless Gaming Mouse",
     price: 49.99,
     originalPrice: 69.99,
-    image: "/placeholder.svg?height=300&width=300&text=Wireless+Gaming+Mouse",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1662323861979-0538474387e3-mY4VDfqi4itG8CUb0FvT3oMPgvUsRa.avif",
     category: "Electronics",
     brand: "TechPro",
     rating: 4.4,
