@@ -64,7 +64,8 @@ const products: Product[] = [
     id: 3,
     name: "Luxury Smartphone Pro",
     price: 1199.99,
-    image: "/placeholder.svg?height=300&width=300&text=Luxury+Smartphone+Pro",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1727093493864-0bcbd16c7e6d-Nn1PPFBf24Ee2ZEi1VJeGPBMTaJPVy.avif",
     category: "Electronics",
     brand: "PhoneTech",
     rating: 4.9,
