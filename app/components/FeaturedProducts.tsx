@@ -96,7 +96,8 @@ const products: Product[] = [
     name: "Professional Camera",
     price: 899.99,
     originalPrice: 1099.99,
-    image: "/placeholder.svg?height=300&width=300&text=Professional+Camera",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1474376700777-eb547d9bed2f-s59vSneFQFi2SphYfc8XL2MwoHsTyx.avif",
     category: "Electronics",
     brand: "PhotoPro",
     rating: 4.5,
