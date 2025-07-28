@@ -49,7 +49,8 @@ const products: Product[] = [
     name: "Smart Fitness Watch",
     price: 199.99,
     originalPrice: 249.99,
-    image: "/placeholder.svg?height=300&width=300&text=Smart+Fitness+Watch",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo-1629339837617-7069ce9e7f6b-8X4xRETMjgxmBDpt9XCMIVPw9foLsI.avif",
     category: "Electronics",
     brand: "FitTech",
     rating: 4.6,
