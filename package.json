@@ -12,7 +12,10 @@
     "responsive",
     "dark-mode",
     "shopping-cart",
-    "wishlist"
+    "wishlist",
+    "vercel-database",
+    "postgres",
+    "redis"
   ],
   "license": "MIT",
   "author": "EliteStore Team",
@@ -53,6 +56,8 @@
     "@radix-ui/react-toggle-group": "1.1.1",
     "@radix-ui/react-tooltip": "1.1.6",
     "@supabase/supabase-js": "latest",
+    "@vercel/kv": "latest",
+    "@vercel/postgres": "latest",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
