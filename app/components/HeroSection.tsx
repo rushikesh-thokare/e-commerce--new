@@ -78,8 +78,8 @@ export default function HeroSection() {
               {/* Main Image */}
               <div className="relative z-10 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 transform hover:scale-105 transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg?height=400&width=500&text=Premium+Shopping+Experience"
-                  alt="Shopping Experience"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/download-a0OJDDm4nm4DlereyAUpmFsRFZwI9I.webp"
+                  alt="RT Logo - Premium Technology Brand"
                   width={500}
                   height={400}
                   className="rounded-2xl w-full h-auto"
