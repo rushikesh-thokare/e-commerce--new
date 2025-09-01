@@ -56,6 +56,9 @@ export default function CartModal() {
               </Button>
             )}
           </DialogTitle>
+          <p className="text-xs text-center text-gray-500 dark:text-gray-400 mt-2">
+            These are the products you have added to your cart.
+          </p>
         </DialogHeader>
 
         <div className="flex-1 overflow-y-auto">

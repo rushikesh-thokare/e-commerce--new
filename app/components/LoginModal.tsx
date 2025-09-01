@@ -24,54 +24,72 @@ export default function LoginModal() {
   const { isLoginOpen, toggleLogin, login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     // Basic validation
     if (!formData.email || !formData.password) {
-      toast.error("Please fill in all required fields")
-      setIsLoading(false)
-      return
+      toast.error("Please fill in all required fields");
+      setIsLoading(false);
+      return;
     }
-
     if (!isLogin && !formData.name) {
-      toast.error("Please enter your name")
-      setIsLoading(false)
-      return
+      toast.error("Please enter your name");
+      setIsLoading(false);
+      return;
     }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      toast.error("Please enter a valid email address")
-      setIsLoading(false)
-      return
+      toast.error("Please enter a valid email address");
+      setIsLoading(false);
+      return;
     }
-
-    // Password validation
     if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters long")
-      setIsLoading(false)
-      return
+      toast.error("Password must be at least 6 characters long");
+      setIsLoading(false);
+      return;
     }
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    // Simple validation for demo
-    if (formData.email && formData.password) {
-      const userData = {
-        name: formData.name || formData.email.split("@")[0],
-        email: formData.email,
+    try {
+      let res, data;
+      if (isLogin) {
+        res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email, password: formData.password }),
+        });
+        data = await res.json();
+        if (res.ok && data.user && data.user.id) {
+          login({
+            id: data.user.id,
+            name: data.user.user_metadata?.name || formData.name || formData.email.split("@")[0],
+            email: data.user.email,
+            access_token: data.session?.access_token,
+          });
+          toast.success("Welcome back!", { description: `Logged in as ${data.user.email}` });
+          setFormData({ name: "", email: "", password: "" });
+        } else {
+          toast.error(data.error || "Login failed: User ID missing");
+        }
+      } else {
+        res = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email, password: formData.password }),
+        });
+        data = await res.json();
+        if (res.ok) {
+          toast.success("Account created successfully!", { description: `Registered as ${formData.email}` });
+          setIsLogin(true);
+          setFormData({ name: "", email: "", password: "" });
+        } else {
+          toast.error(data.error || "Registration failed");
+        }
       }
-      login(userData)
-      toast.success(isLogin ? "Welcome back!" : "Account created successfully!", {
-        description: `Logged in as ${userData.name}`,
-      })
-      setFormData({ name: "", email: "", password: "" })
+    } catch (err) {
+      toast.error("Something went wrong");
     }
-
-    setIsLoading(false)
+    setIsLoading(false);
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

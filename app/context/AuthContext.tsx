@@ -5,8 +5,10 @@ import type React from "react"
 import { createContext, useContext, useEffect, useState } from "react"
 
 interface User {
+  id: string
   name: string
   email: string
+  access_token?: string
 }
 
 interface AuthContextType {
@@ -50,8 +52,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user, mounted])
 
   const login = (userData: User) => {
-    setUser(userData)
-    setIsLoginOpen(false)
+  setUser(userData)
+  setIsLoginOpen(false)
   }
 
   const logout = () => {

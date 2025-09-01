@@ -33,65 +33,94 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<CartItem[]>([])
-  const [isCartOpen, setIsCartOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
-  // Load cart from localStorage on mount
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { user } = require("../context/AuthContext").useAuth();
+
+  // Fetch cart from Supabase on mount and when user changes
   useEffect(() => {
-    setMounted(true)
-    const savedCart = localStorage.getItem("cart")
-    if (savedCart) {
-      try {
-        setCart(JSON.parse(savedCart))
-      } catch (error) {
-        console.error("Error parsing cart from localStorage:", error)
-        localStorage.removeItem("cart")
+    async function fetchCart() {
+      if (!user) return;
+  const res = await fetch(`/api/cart?userId=${user.id}`);
+      const data = await res.json();
+      if (res.ok && data.cart) {
+        setCart(data.cart.map((item: any) => ({
+          ...item,
+          id: item.product_id,
+        })));
       }
     }
-  }, [])
+    fetchCart();
+  }, [user]);
 
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem("cart", JSON.stringify(cart))
-    }
-  }, [cart, mounted])
-
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id)
-      if (existingItem) {
-        return prevCart.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item))
-      } else {
-        return [...prevCart, { ...product, quantity: 1 }]
+  const addToCart = async (product: Product) => {
+    if (!user) return;
+    const res = await fetch('/api/cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, productId: product.id, quantity: 1, access_token: user.access_token }),
+    });
+    if (res.ok) {
+      // Refetch cart
+      const getRes = await fetch(`/api/cart?userId=${user.id}&access_token=${user.access_token}`);
+      const getData = await getRes.json();
+      if (getRes.ok && getData.cart) {
+        setCart(getData.cart.map((item: any) => ({ ...item, id: item.product_id })));
       }
-    })
-  }
+    }
+  };
 
-  const removeFromCart = (productId: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId))
-  }
+  const removeFromCart = async (productId: number) => {
+    if (!user) return;
+    await fetch('/api/cart', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, productId, access_token: user.access_token }),
+    });
+    // Refetch cart
+    const getRes = await fetch(`/api/cart?userId=${user.id}&access_token=${user.access_token}`);
+    const getData = await getRes.json();
+    if (getRes.ok && getData.cart) {
+      setCart(getData.cart.map((item: any) => ({ ...item, id: item.product_id })));
+    }
+  };
 
-  const updateQuantity = (productId: number, quantity: number) => {
+  const updateQuantity = async (productId: number, quantity: number) => {
+    if (!user) return;
     if (quantity === 0) {
-      removeFromCart(productId)
-      return
+      await removeFromCart(productId);
+      return;
     }
-    setCart((prevCart) => prevCart.map((item) => (item.id === productId ? { ...item, quantity } : item)))
-  }
+    await fetch('/api/cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, productId, quantity, access_token: user.access_token }),
+    });
+    // Refetch cart
+    const getRes = await fetch(`/api/cart?userId=${user.id}&access_token=${user.access_token}`);
+    const getData = await getRes.json();
+    if (getRes.ok && getData.cart) {
+      setCart(getData.cart.map((item: any) => ({ ...item, id: item.product_id })));
+    }
+  };
 
-  const clearCart = () => {
-    setCart([])
-  }
+  const clearCart = async () => {
+    if (!user) return;
+    // Remove all items one by one
+    for (const item of cart) {
+      await removeFromCart(item.id);
+    }
+    setCart([]);
+  };
 
   const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0)
-  }
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
 
   const toggleCart = () => {
-    setIsCartOpen(!isCartOpen)
-  }
+    setIsCartOpen(!isCartOpen);
+  };
 
   return (
     <CartContext.Provider
